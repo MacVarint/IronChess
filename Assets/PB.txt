@@ -1,0 +1,45 @@
+Todo 
+{
+	Buttons();
+	Timer();
+	Grid();
+	Tapping();
+	if (Tapping() == true) 
+	{
+		Dragging();
+	}
+	IronCounter();
+}
+
+Buttons() 
+{
+	text = "The buttons do not work without a ui, this needs to be fixed.";
+}
+Timer() 
+{
+	text = "The timer needs a script to work properly, implement te same script as in Code's Law.";
+}
+Grid() 
+{
+	text = "The chess pieces can't move, make a grid so that it knows where you are.";
+}
+Tapping() 
+{
+
+	text = "You cannot tap the screen as this does nothing.";
+	if(text == true) 
+	{
+		return true;
+	} else 
+	{
+		return false
+	}
+}
+Dragging() 
+{
+text = "You cannot drag the screen without the pieces moving.";
+}
+IronCounter()
+{
+text = "The ammount of iron is not being counted, make this happen on screen.";
+}
