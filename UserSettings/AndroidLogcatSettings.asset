@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "RF8R90FY4QA",
     "m_SelectedPackage": {
-        "deviceId": "RF8R90FY4QA",
-        "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 29291,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,12 +12,24 @@
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 24645,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 29291,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 23769,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.unity3d.mobileremote",
+            "processId": 11923,
             "exited": false
         }
     ],
