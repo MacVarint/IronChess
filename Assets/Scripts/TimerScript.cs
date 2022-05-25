@@ -13,7 +13,7 @@ public class TimerScript : MonoBehaviour
     public int milliSeconds = 0;
     public int seconds = 0;
     public int minutes = 0;
-    public bool leverBool = true;
+    public bool turnOnTimer = true;
     public bool countDown = false;
 
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (leverBool)
+        if (turnOnTimer)
         {
             Converter();
         }

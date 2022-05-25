@@ -4,18 +4,9 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    enum chessPiece {Pawn, Tower, Knight, Bishop, Queen, King, None};
-    chessPiece current = chessPiece.None;
+    public enum chessPiece {PawnWhite, KnightWhite, BishopWhite, TowerWhite, QueenWhite, KingWhite, PawnBlack, KnightBlack, BishopBlack, TowerBlack, QueenBlack, KingBlack, None };
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public chessPiece current = chessPiece.None;
+    public SpriteRenderer imageHolder;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
