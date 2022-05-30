@@ -33,7 +33,7 @@ public class InteractionScript : MonoBehaviour
     }
     private void TouchCount()
     {
-        /*if (Input.touchCount == 1)
+        if (Input.touchCount == 1)
         {
             pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
             pos.z = -5;
@@ -42,7 +42,7 @@ public class InteractionScript : MonoBehaviour
             {
                 Debug.Log(hit.transform.name);
             }
-        }*/
+        }
         if (Input.GetMouseButtonDown(1))
         {
             touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
