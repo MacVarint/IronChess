@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CreateTiles : MonoBehaviour
 {
     public GameObject whiteTile;
@@ -9,8 +8,10 @@ public class CreateTiles : MonoBehaviour
     private Transform parent;
     private float scaling = 2f;
     private float startPosition = 3.5f;
+    GridManager gridManager;
     void Start()
     {
+        gridManager = this.GetComponent<GridManager>();
         ConstructTiles();
         StartPositions();
     }
@@ -39,42 +40,53 @@ public class CreateTiles : MonoBehaviour
     }
     public void StartPositions()
     {
-        //Bottom
-        GridManager.Board[0, 0].current = Tile.chessPiece.TowerWhite;
-        GridManager.Board[1, 0].current = Tile.chessPiece.KnightWhite;
-        GridManager.Board[2, 0].current = Tile.chessPiece.BishopWhite;
-        GridManager.Board[3, 0].current = Tile.chessPiece.QueenWhite;
-        GridManager.Board[4, 0].current = Tile.chessPiece.KingWhite;
-        GridManager.Board[5, 0].current = Tile.chessPiece.BishopWhite;
-        GridManager.Board[6, 0].current = Tile.chessPiece.KnightWhite;
-        GridManager.Board[7, 0].current = Tile.chessPiece.TowerWhite;
-
-        for (int i = 0; i < 8; i++)
-        {
-            GridManager.Board[i, 1].current = Tile.chessPiece.PawnWhite;
-        }
         //Top
-        GridManager.Board[0, 7].current = Tile.chessPiece.TowerBlack;
-        GridManager.Board[0, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[1, 7].current = Tile.chessPiece.KnightBlack;
-        GridManager.Board[1, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[2, 7].current = Tile.chessPiece.BishopBlack;
-        GridManager.Board[2, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[3, 7].current = Tile.chessPiece.QueenBlack;
-        GridManager.Board[3, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[4, 7].current = Tile.chessPiece.KingBlack;
-        GridManager.Board[4, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[5, 7].current = Tile.chessPiece.BishopBlack;
-        GridManager.Board[5, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[6, 7].current = Tile.chessPiece.KnightBlack;
-        GridManager.Board[6, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
-        GridManager.Board[7, 7].current = Tile.chessPiece.TowerBlack;
-        GridManager.Board[7, 7].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
+        GridManager.Board[0, 7].current = Tile.chessPiece.TowerOponent;
+        GridManager.Board[1, 7].current = Tile.chessPiece.KnightOponent;
+        GridManager.Board[2, 7].current = Tile.chessPiece.BishopOponent;
+
+        if (gridManager.startsAsWhite == true)
+        {
+            GridManager.Board[3, 7].current = Tile.chessPiece.QueenOponent;
+            GridManager.Board[4, 7].current = Tile.chessPiece.KingOponent;
+        }
+        else
+        {
+            GridManager.Board[4, 7].current = Tile.chessPiece.QueenOponent;
+            GridManager.Board[3, 7].current = Tile.chessPiece.KingOponent;
+        }
+
+        GridManager.Board[5, 7].current = Tile.chessPiece.BishopOponent;
+        GridManager.Board[6, 7].current = Tile.chessPiece.KnightOponent;
+        GridManager.Board[7, 7].current = Tile.chessPiece.TowerOponent;
 
         for (int i = 0; i < 8; i++)
         {
-            GridManager.Board[i, 6].current = Tile.chessPiece.PawnBlack;
-            GridManager.Board[i, 6].imageHolder.transform.rotation = Quaternion.Euler(0, 0, 180);
+            GridManager.Board[i, 6].current = Tile.chessPiece.PawnOponent;
+        }
+
+        //Bottom
+        GridManager.Board[0, 0].current = Tile.chessPiece.TowerPlayer;
+        GridManager.Board[1, 0].current = Tile.chessPiece.KnightPlayer;
+        GridManager.Board[2, 0].current = Tile.chessPiece.BishopPlayer;
+
+        if (gridManager.startsAsWhite == true)
+        {
+            GridManager.Board[3, 0].current = Tile.chessPiece.QueenPlayer;
+            GridManager.Board[4, 0].current = Tile.chessPiece.KingPlayer;
+        }
+        else
+        {
+            GridManager.Board[4, 0].current = Tile.chessPiece.QueenPlayer;
+            GridManager.Board[3, 0].current = Tile.chessPiece.KingPlayer;
+        }
+        GridManager.Board[5, 0].current = Tile.chessPiece.BishopPlayer;
+        GridManager.Board[6, 0].current = Tile.chessPiece.KnightPlayer;
+        GridManager.Board[7, 0].current = Tile.chessPiece.TowerPlayer;
+
+        for (int i = 0; i < 8; i++)
+        {
+            GridManager.Board[i, 1].current = Tile.chessPiece.PawnPlayer;
         }
     }
 }

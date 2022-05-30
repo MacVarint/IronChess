@@ -6,7 +6,9 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     static public Tile[,] Board = new Tile[8, 8];
+    public bool startsAsWhite = true;
     public Sprite[] sprites;
+    public Sprite[] sprites2;
     void Update()
     {
         AssignSprites();
@@ -21,7 +23,14 @@ public class GridManager : MonoBehaviour
                 {
                     if (Board[i, j].current == (Tile.chessPiece)k)
                     {
-                        Board[i, j].imageHolder.sprite = sprites[k];
+                        if (startsAsWhite)
+                        {
+                            Board[i, j].imageHolder.sprite = sprites[k];
+                        }
+                        else
+                        {
+                            Board[i, j].imageHolder.sprite = sprites2[k];
+                        }
                     }
                 }
             }

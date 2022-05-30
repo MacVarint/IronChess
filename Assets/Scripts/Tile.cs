@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public enum chessPiece {PawnWhite, KnightWhite, BishopWhite, TowerWhite, QueenWhite, KingWhite, PawnBlack, KnightBlack, BishopBlack, TowerBlack, QueenBlack, KingBlack, None };
+    public enum chessPiece {PawnPlayer, KnightPlayer, BishopPlayer, TowerPlayer, QueenPlayer, KingPlayer, PawnOponent, KnightOponent, BishopOponent, TowerOponent, QueenOponent, KingOponent, None };
 
     public chessPiece current = chessPiece.None;
     public SpriteRenderer imageHolder;
