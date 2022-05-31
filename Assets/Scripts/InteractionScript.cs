@@ -6,8 +6,10 @@ public class InteractionScript : MonoBehaviour
 {
     Vector3 pos;
 
+    public float aspectHeight = 20f;
+    public float aspectWidth = 9f;
     //Joinked Variables
-    Vector3 touchStart;
+    Vector2 touchStart;
     public float zoomOutMin = 1;
     public float zoomOutMax = 8;
     //end Joinked Variables
@@ -15,12 +17,14 @@ public class InteractionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        AspectRatio();
+        Debug.Log(Screen.width / Screen.height + " " + Screen.height / Screen.width);
     }
 
     // Update is called once per frame
     void Update()
     {
+  
         //Checks if there is an Input
         if (Input.touchCount > 0)
         {
@@ -30,6 +34,11 @@ public class InteractionScript : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(pos, pos + Vector3.forward * 10);
+    }
+    public void AspectRatio()
+    {
+        aspectHeight = aspectHeight * 2;
+        aspectWidth = aspectWidth * 2;
     }
     private void TouchCount()
     {
@@ -43,22 +52,22 @@ public class InteractionScript : MonoBehaviour
                 Debug.Log(hit.transform.name);
             }
         }
-        if (Input.GetMouseButtonDown(1))
+        //began phase
+        if (Input.GetTouch(1).phase == TouchPhase.Began)
         {
-            touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            touchStart = (Input.GetTouch(1).position + Input.GetTouch(0).position)/2;
         }
-        else if (Input.GetMouseButton(1))
+        //check if finger is touching
+        else if (Input.touchCount == 2)
         {
-            JoinkedZoomAndMoveCode();
-            Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            JoinkedZoomCode();
+            Vector2 directionV2 = touchStart - ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
+            Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth, directionV2.y/Screen.height * aspectHeight, 0);
             Camera.main.transform.position += direction;
-        }
-        else
-        {
-            //Nothing
+            touchStart = ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
         }
     }
-    public void JoinkedZoomAndMoveCode()
+    public void JoinkedZoomCode()
     {
         Touch touchZero = Input.GetTouch(0);
         Touch touchOne = Input.GetTouch(1);
@@ -70,7 +79,6 @@ public class InteractionScript : MonoBehaviour
         float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
 
         float difference = currentMagnitude - prevMagnitude;
-
         JoinkedZoom(difference * 0.01f);
     }
     void JoinkedZoom(float increment)
