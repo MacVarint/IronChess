@@ -5,14 +5,16 @@ using UnityEngine;
 public class InteractionScript : MonoBehaviour
 {
     Vector3 pos;
-
+    Vector3 cameraLockTopRight;
+    Vector3 cameraLockBottomLeft;
     public float aspectHeight = 20f;
     public float aspectWidth = 9f;
     //Joinked Variables
     Vector2 touchStart;
     public float zoomOutMin = 1;
-    public float zoomOutMax = 8;
+    public float zoomOutMax = 20;
     //end Joinked Variables
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +25,10 @@ public class InteractionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-  
+        cameraLockTopRight = new Vector3(Camera.main.transform.position.x + 9f / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + 20f / 20 * Camera.main.orthographicSize, -10);
+        cameraLockTopRight = Clamp(cameraLockTopRight, -9f, 9f, -20, 20, -10, -10);
+        cameraLockBottomLeft = new Vector3(Camera.main.transform.position.x + -9f / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + -20f / 20 * Camera.main.orthographicSize, -10);
+        cameraLockBottomLeft = Clamp(cameraLockBottomLeft, -9f, 9f, -20, 20, -10, -10);
         //Checks if there is an Input
         if (Input.touchCount > 0)
         {
@@ -33,6 +38,8 @@ public class InteractionScript : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(pos, pos + Vector3.forward * 10);
+        Gizmos.DrawLine(cameraLockTopRight, cameraLockTopRight + Vector3.forward * 10);
+        Gizmos.DrawLine(cameraLockBottomLeft, cameraLockBottomLeft + Vector3.forward * 10);
     }
     public void AspectRatio()
     {
@@ -62,7 +69,13 @@ public class InteractionScript : MonoBehaviour
             Vector2 directionV2 = touchStart - ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
             Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth, directionV2.y/Screen.height * aspectHeight, 0);
             Camera.main.transform.position += direction;
-            Camera.main.transform.position = Clamp(Camera.main.transform.position, -10, 10, -10, 10);
+            //Camera locks
+
+
+            Camera.main.transform.position = Clamp(Camera.main.transform.position, -8.55f, 8.55f, -19, 19, -10, -10);
+
+
+
             touchStart = ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
         }
     }
@@ -84,10 +97,16 @@ public class InteractionScript : MonoBehaviour
     {
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomOutMin, zoomOutMax);
     }
-    public Vector3 Clamp(Vector3 target, float minX, float maxX, float minY, float maxY)
+    public Vector3 Clamp(Vector3 target, float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
     {
         target.x = Mathf.Clamp(target.x, minX, maxX);
         target.y = Mathf.Clamp(target.y, minY, maxY);
+        target.z = Mathf.Clamp(target.z, minZ, maxZ);
         return target;
     }
+
+
+
+
+    
 }
