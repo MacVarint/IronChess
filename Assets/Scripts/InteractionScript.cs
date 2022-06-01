@@ -18,7 +18,6 @@ public class InteractionScript : MonoBehaviour
     void Start()
     {
         AspectRatio();
-        Debug.Log(Screen.width / Screen.height + " " + Screen.height / Screen.width);
     }
 
     // Update is called once per frame
@@ -57,13 +56,13 @@ public class InteractionScript : MonoBehaviour
         {
             touchStart = (Input.GetTouch(1).position + Input.GetTouch(0).position)/2;
         }
-        //check if finger is touching
-        else if (Input.touchCount == 2)
+        if (Input.touchCount == 2)
         {
             JoinkedZoomCode();
             Vector2 directionV2 = touchStart - ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
             Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth, directionV2.y/Screen.height * aspectHeight, 0);
             Camera.main.transform.position += direction;
+            Camera.main.transform.position = Clamp(Camera.main.transform.position, -10, 10, -10, 10);
             touchStart = ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
         }
     }
@@ -84,5 +83,11 @@ public class InteractionScript : MonoBehaviour
     void JoinkedZoom(float increment)
     {
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomOutMin, zoomOutMax);
+    }
+    public Vector3 Clamp(Vector3 target, float minX, float maxX, float minY, float maxY)
+    {
+        target.x = Mathf.Clamp(target.x, minX, maxX);
+        target.y = Mathf.Clamp(target.y, minY, maxY);
+        return target;
     }
 }

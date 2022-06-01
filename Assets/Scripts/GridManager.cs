@@ -9,9 +9,14 @@ public class GridManager : MonoBehaviour
     public bool startsAsWhite = true;
     public Sprite[] sprites;
     public Sprite[] sprites2;
-    void Update()
+
+    private void Start()
     {
         AssignSprites();
+    }
+    void Update()
+    {
+      
     }
     public void AssignSprites()
     {
