@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "RF8R90FY4QA",
         "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 18116,
+        "processId": 22728,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -48,6 +48,36 @@
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 18116,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 16289,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 16787,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 17734,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 21327,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 22728,
             "exited": false
         }
     ],

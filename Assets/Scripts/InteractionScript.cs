@@ -24,19 +24,13 @@ public class InteractionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraLock();
-
-
-
-
-
-
-
         //Checks if there is an Input
         if (Input.touchCount > 0)
         {
             TouchCount();
         }
+        CameraLock();
+
     }
     private void OnDrawGizmos()
     {
@@ -88,7 +82,7 @@ public class InteractionScript : MonoBehaviour
             }
             JoinkedZoomCode();
             Vector2 directionV2 = touchStart - ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
-            Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth * 2, directionV2.y/Screen.height * aspectHeight * 2, 0);
+            Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth * 2 / 20 * Camera.main.orthographicSize, directionV2.y/Screen.height * aspectHeight * 2 / 20 * Camera.main.orthographicSize, 0);
             Camera.main.transform.position += direction;
             //Camera locks
 
@@ -112,7 +106,7 @@ public class InteractionScript : MonoBehaviour
         float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
 
         float difference = currentMagnitude - prevMagnitude;
-        JoinkedZoom(difference * 0.01f);
+        JoinkedZoom(difference * 0.01f / 20 * Camera.main.orthographicSize);
     }
     void JoinkedZoom(float increment)
     {
