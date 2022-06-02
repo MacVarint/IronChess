@@ -15,20 +15,23 @@ public class InteractionScript : MonoBehaviour
     public float zoomOutMax = 20;
     //end Joinked Variables
 
-
     // Start is called before the first frame update
     void Start()
     {
-        AspectRatio();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        cameraLockTopRight = new Vector3(Camera.main.transform.position.x + 9f / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + 20f / 20 * Camera.main.orthographicSize, -10);
-        cameraLockTopRight = Clamp(cameraLockTopRight, -9f, 9f, -20, 20, -10, -10);
-        cameraLockBottomLeft = new Vector3(Camera.main.transform.position.x + -9f / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + -20f / 20 * Camera.main.orthographicSize, -10);
-        cameraLockBottomLeft = Clamp(cameraLockBottomLeft, -9f, 9f, -20, 20, -10, -10);
+        CameraLock();
+
+
+
+
+
+
+
         //Checks if there is an Input
         if (Input.touchCount > 0)
         {
@@ -41,10 +44,29 @@ public class InteractionScript : MonoBehaviour
         Gizmos.DrawLine(cameraLockTopRight, cameraLockTopRight + Vector3.forward * 10);
         Gizmos.DrawLine(cameraLockBottomLeft, cameraLockBottomLeft + Vector3.forward * 10);
     }
-    public void AspectRatio()
+    private void CameraLock()
     {
-        aspectHeight = aspectHeight * 2;
-        aspectWidth = aspectWidth * 2;
+        cameraLockTopRight = new Vector3(Camera.main.transform.position.x + aspectWidth / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + aspectHeight / 20 * Camera.main.orthographicSize, -10);
+        cameraLockBottomLeft = new Vector3(Camera.main.transform.position.x + -aspectWidth / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + -aspectHeight / 20 * Camera.main.orthographicSize, -10);
+        //cameraLockTopRight = Clamp(cameraLockTopRight, -aspectWidth, aspectWidth, -aspectHeight, aspectHeight, -10, -10);
+        //cameraLockBottomLeft = Clamp(cameraLockBottomLeft, -aspectWidth, aspectWidth, -aspectHeight, aspectHeight, -10, -10);
+
+        if (cameraLockTopRight.x > aspectWidth)
+        {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (cameraLockTopRight.x - aspectWidth), Camera.main.transform.position.y, -10);
+        }
+        if (cameraLockTopRight.y > aspectHeight)
+        {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - (cameraLockTopRight.y - aspectHeight), -10);
+        }
+        if (cameraLockBottomLeft.x < -aspectWidth)
+        {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (cameraLockBottomLeft.x + aspectWidth), Camera.main.transform.position.y, -10);
+        }
+        if (cameraLockBottomLeft.y < -aspectHeight)
+        {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - (cameraLockBottomLeft.y + aspectHeight), -10);
+        }
     }
     private void TouchCount()
     {
@@ -58,16 +80,15 @@ public class InteractionScript : MonoBehaviour
                 Debug.Log(hit.transform.name);
             }
         }
-        //began phase
-        if (Input.GetTouch(1).phase == TouchPhase.Began)
-        {
-            touchStart = (Input.GetTouch(1).position + Input.GetTouch(0).position)/2;
-        }
         if (Input.touchCount == 2)
         {
+            if (Input.GetTouch(1).phase == TouchPhase.Began)
+            {
+                touchStart = (Input.GetTouch(1).position + Input.GetTouch(0).position) / 2;
+            }
             JoinkedZoomCode();
             Vector2 directionV2 = touchStart - ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
-            Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth, directionV2.y/Screen.height * aspectHeight, 0);
+            Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth * 2, directionV2.y/Screen.height * aspectHeight * 2, 0);
             Camera.main.transform.position += direction;
             //Camera locks
 
