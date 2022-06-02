@@ -15,6 +15,8 @@ public class InteractionScript : MonoBehaviour
     public float zoomOutMax = 20;
     //end Joinked Variables
     public GameObject redTile;
+    public GameObject greenTile;
+    public Transform parent;
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +45,6 @@ public class InteractionScript : MonoBehaviour
     {
         cameraLockTopRight = new Vector3(Camera.main.transform.position.x + aspectWidth / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + aspectHeight / 20 * Camera.main.orthographicSize, -10);
         cameraLockBottomLeft = new Vector3(Camera.main.transform.position.x + -aspectWidth / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + -aspectHeight / 20 * Camera.main.orthographicSize, -10);
-        //cameraLockTopRight = Clamp(cameraLockTopRight, -aspectWidth, aspectWidth, -aspectHeight, aspectHeight, -10, -10);
-        //cameraLockBottomLeft = Clamp(cameraLockBottomLeft, -aspectWidth, aspectWidth, -aspectHeight, aspectHeight, -10, -10);
 
         if (cameraLockTopRight.x > aspectWidth)
         {
@@ -67,14 +67,7 @@ public class InteractionScript : MonoBehaviour
     {
         if (Input.touchCount == 1)
         {
-            pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            pos.z = -5;
-            RaycastHit hit;
-            if (Physics.Raycast(pos, transform.forward, out hit, 10))
-            {
-                Debug.Log(hit.transform.name);
-                redTile.transform.position = hit.transform.position;
-            }
+            TileSelection();
         }
         if (Input.touchCount == 2)
         {
@@ -96,7 +89,21 @@ public class InteractionScript : MonoBehaviour
             touchStart = ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
         }
     }
-    public void JoinkedZoomCode()
+    private void TileSelection()
+    {
+        pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        pos.z = -5;
+        RaycastHit hit;
+        if (Physics.Raycast(pos, transform.forward, out hit, 10))
+        {
+            Debug.Log(hit.transform.name);
+            GameObject newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
+            newRedTile.transform.position = hit.transform.position;
+            GameObject temp = Instantiate(greenTile, new Vector3(redTile.transform.position.x + 2, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
+            temp.transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
+        }
+    }
+    void JoinkedZoomCode()
     {
         Touch touchZero = Input.GetTouch(0);
         Touch touchOne = Input.GetTouch(1);
