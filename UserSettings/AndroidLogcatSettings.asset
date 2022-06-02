@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "RF8R90FY4QA",
         "name": "com.DefaultCompany.com.unity.template.mobile2D",
-        "processId": 22728,
+        "processId": 30036,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -78,6 +78,18 @@
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 22728,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 26457,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 30036,
             "exited": false
         }
     ],

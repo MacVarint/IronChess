@@ -14,11 +14,12 @@ public class InteractionScript : MonoBehaviour
     public float zoomOutMin = 1;
     public float zoomOutMax = 20;
     //end Joinked Variables
+    public GameObject redTile;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        redTile.SetActive(enabled);
     }
 
     // Update is called once per frame
@@ -72,6 +73,7 @@ public class InteractionScript : MonoBehaviour
             if (Physics.Raycast(pos, transform.forward, out hit, 10))
             {
                 Debug.Log(hit.transform.name);
+                redTile.transform.position = hit.transform.position;
             }
         }
         if (Input.touchCount == 2)
