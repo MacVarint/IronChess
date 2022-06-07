@@ -33,6 +33,7 @@ public class CreateTiles : MonoBehaviour
                 }
                 Tile tempTile = temp.AddComponent<Tile>();
                 tempTile.imageHolder = temp.transform.GetChild(0).GetComponent<SpriteRenderer>();
+                tempTile.gridpos = new Vector2Int(i,j);
                 GridManager.Board[i, j] = tempTile;
                 temp.name = "Tile:" + i + "," + j;
             }

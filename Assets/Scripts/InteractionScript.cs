@@ -16,6 +16,7 @@ public class InteractionScript : MonoBehaviour
     //end Joinked Variables
     public GameObject redTile;
     public GameObject greenTile;
+    private GameObject newRedTile;
     public Transform parent;
 
     // Start is called before the first frame update
@@ -91,16 +92,30 @@ public class InteractionScript : MonoBehaviour
     }
     private void TileSelection()
     {
-        pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-        pos.z = -5;
-        RaycastHit hit;
-        if (Physics.Raycast(pos, transform.forward, out hit, 10))
+        if (Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            Debug.Log(hit.transform.name);
-            GameObject newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
-            newRedTile.transform.position = hit.transform.position;
-            GameObject temp = Instantiate(greenTile, new Vector3(redTile.transform.position.x + 2, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
-            temp.transform.position = new Vector3(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
+            Destroy(newRedTile);
+            pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            pos.z = -5;
+            RaycastHit hit;
+            if (Physics.Raycast(pos, transform.forward, out hit, 10))
+            {
+                Debug.Log(hit.transform.name);
+                newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
+                newRedTile.transform.position = hit.transform.position;
+                GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+                newGreenTile.transform.position = new Vector3(hit.transform.position.x + 2, hit.transform.position.y, hit.transform.position.z);
+                //er is hier ergens een error maar ik weet niet waar
+                Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
+                if (movesCurrent != null)
+                {
+                    for (int i = 0; i < movesCurrent.Length; i++)
+                    {
+                        Debug.Log(movesCurrent[i]);
+                    }
+                }
+                Debug.Log(hit.transform.GetComponent<Tile>().gridpos);
+            }
         }
     }
     void JoinkedZoomCode()
@@ -127,10 +142,5 @@ public class InteractionScript : MonoBehaviour
         target.y = Mathf.Clamp(target.y, minY, maxY);
         target.z = Mathf.Clamp(target.z, minZ, maxZ);
         return target;
-    }
-
-
-
-
-    
+    }    
 }
