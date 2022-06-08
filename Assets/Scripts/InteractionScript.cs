@@ -111,15 +111,37 @@ public class InteractionScript : MonoBehaviour
                     for (int i = 0; i < movesCurrent.Length; i++)
                     {
                         Debug.Log(movesCurrent[i]);
-                        Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
-                        if ( tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                        bool repeat = true;
+                        if (!repeat)
                         {
-                            GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
-                            newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                            Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
+                            if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                            {
+                                GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+                                newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                            }
+                        }
+                        else
+                        {
+                            Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
+                            if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                            {
+                                GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+                                newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                            }
+                            for (int j = 0; j < 5; j++)
+                            {
+                                tempNext +=  new Vector2Int((int) movesCurrent[i].x ,(int) movesCurrent[i].y);
+                                Debug.Log(tempNext);
+                                if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                                {
+                                    GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+                                    newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                                }
+                            }
                         }
                     }
                 }
-                Debug.Log(  "" + hit.transform.GetComponent<Tile>().current + movesCurrent.Length);
             }
         }
     }
