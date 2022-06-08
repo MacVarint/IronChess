@@ -103,8 +103,7 @@ public class InteractionScript : MonoBehaviour
                 Debug.Log(hit.transform.name);
                 newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
                 newRedTile.transform.position = hit.transform.position;
-                GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
-                newGreenTile.transform.position = new Vector3(hit.transform.position.x + 2, hit.transform.position.y, hit.transform.position.z);
+                Vector2Int currentPos = hit.transform.GetComponent<Tile>().gridpos;
                 //er is hier ergens een error maar ik weet niet waar
                 Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
                 if (movesCurrent != null)
@@ -112,9 +111,15 @@ public class InteractionScript : MonoBehaviour
                     for (int i = 0; i < movesCurrent.Length; i++)
                     {
                         Debug.Log(movesCurrent[i]);
+                        Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
+                        if ( tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                        {
+                            GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+                            newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                        }
                     }
                 }
-                Debug.Log(hit.transform.GetComponent<Tile>().gridpos);
+                Debug.Log(  "" + hit.transform.GetComponent<Tile>().current + movesCurrent.Length);
             }
         }
     }

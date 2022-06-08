@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3017374239823166971}
   - component: {fileID: 876500056044813542}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Image Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5619617435054159616}
   - component: {fileID: 5619617435054159647}
   - component: {fileID: -7990088972598750756}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Green Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
