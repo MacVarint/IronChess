@@ -18,6 +18,9 @@ public class InteractionScript : MonoBehaviour
     public GameObject greenTile;
     private GameObject newRedTile;
     public Transform parent;
+    //Vector2Int[] newGreenTilesPositions = { };
+
+    List<Vector2Int> newGreenTilesPositions = new List<Vector2Int>();
 
     // Start is called before the first frame update
     void Start()
@@ -81,12 +84,7 @@ public class InteractionScript : MonoBehaviour
             Vector3 direction = new Vector3(directionV2.x/Screen.width * aspectWidth * 2 / 20 * Camera.main.orthographicSize, directionV2.y/Screen.height * aspectHeight * 2 / 20 * Camera.main.orthographicSize, 0);
             Camera.main.transform.position += direction;
             //Camera locks
-
-
             Camera.main.transform.position = Clamp(Camera.main.transform.position, -8.55f, 8.55f, -19, 19, -10, -10);
-
-
-
             touchStart = ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
         }
     }
@@ -100,7 +98,6 @@ public class InteractionScript : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, transform.forward, out hit, 10))
             {
-                Debug.Log(hit.transform.name);
                 newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
                 newRedTile.transform.position = hit.transform.position;
                 Vector2Int currentPos = hit.transform.GetComponent<Tile>().gridpos;
@@ -108,14 +105,14 @@ public class InteractionScript : MonoBehaviour
                 Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
                 if (movesCurrent != null)
                 {
+                    int counter = 0;
                     for (int i = 0; i < movesCurrent.Length; i++)
                     {
-                        Debug.Log(movesCurrent[i]);
-                        bool repeat = true;
+                        bool repeat = Moves.getRepeat(hit.transform.GetComponent<Tile>().current); ;
                         if (!repeat)
                         {
                             Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
-                            if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                            if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
                             {
                                 GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
                                 newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
@@ -123,24 +120,26 @@ public class InteractionScript : MonoBehaviour
                         }
                         else
                         {
-                            Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
-                            if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                            Vector2Int tempNext = new Vector2Int(currentPos.x, currentPos.y);
+                            bool stopLine = false;
+                            for (int j = 1; j < 8; j++)
                             {
-                                GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
-                                newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
-                            }
-                            for (int j = 0; j < 5; j++)
-                            {
-                                tempNext +=  new Vector2Int((int) movesCurrent[i].x ,(int) movesCurrent[i].y);
-                                Debug.Log(tempNext);
-                                if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
+                                tempNext += new Vector2Int((int)movesCurrent[i].x, (int)movesCurrent[i].y);
+                                if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
                                 {
                                     GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
-                                    newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                                    newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * j * 2, newRedTile.transform.position.y + movesCurrent[i].y * j * 2, hit.transform.position.z);
+                                    newGreenTilesPositions[counter] = tempNext;
+                                    counter++;
+                                }
+                                else
+                                {
+                                    break;
                                 }
                             }
                         }
                     }
+                    Debug.Log(newGreenTilesPositions.Count);
                 }
             }
         }

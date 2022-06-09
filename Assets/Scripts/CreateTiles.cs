@@ -69,7 +69,9 @@ public class CreateTiles : MonoBehaviour
         //Bottom
         GridManager.Board[0, 0].current = Tile.chessPiece.TowerPlayer;
         GridManager.Board[1, 0].current = Tile.chessPiece.KnightPlayer;
-        GridManager.Board[2, 0].current = Tile.chessPiece.BishopPlayer;
+        GridManager.Board[2, 3].current = Tile.chessPiece.BishopPlayer;
+        GridManager.Board[3, 4].current = Tile.chessPiece.PawnOponent;
+
 
         if (gridManager.startsAsWhite == true)
         {
