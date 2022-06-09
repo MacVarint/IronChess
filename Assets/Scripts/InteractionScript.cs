@@ -105,7 +105,7 @@ public class InteractionScript : MonoBehaviour
                 Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
                 if (movesCurrent != null)
                 {
-                    int counter = 0;
+                    newGreenTilesPositions = new List<Vector2Int>();
                     for (int i = 0; i < movesCurrent.Length; i++)
                     {
                         bool repeat = Moves.getRepeat(hit.transform.GetComponent<Tile>().current); ;
@@ -116,6 +116,7 @@ public class InteractionScript : MonoBehaviour
                             {
                                 GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
                                 newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
+                                newGreenTilesPositions.Add(tempNext);
                             }
                         }
                         else
@@ -129,8 +130,8 @@ public class InteractionScript : MonoBehaviour
                                 {
                                     GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
                                     newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * j * 2, newRedTile.transform.position.y + movesCurrent[i].y * j * 2, hit.transform.position.z);
-                                    newGreenTilesPositions[counter] = tempNext;
-                                    counter++;
+                                    newGreenTilesPositions.Add(tempNext);
+                                    Debug.Log(newGreenTilesPositions);
                                 }
                                 else
                                 {
