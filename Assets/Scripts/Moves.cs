@@ -115,7 +115,7 @@ public static class Moves
 
     public static bool getRepeat(Tile.chessPiece piece)
     {
-        if (piece == Tile.chessPiece.PawnOponent || piece == Tile.chessPiece.PawnPlayer || piece == Tile.chessPiece.KnightOponent || piece == Tile.chessPiece.KnightPlayer)
+        if (piece == Tile.chessPiece.PawnOponent || piece == Tile.chessPiece.PawnPlayer || piece == Tile.chessPiece.KnightOponent || piece == Tile.chessPiece.KnightPlayer || piece == Tile.chessPiece.KingOponent || piece == Tile.chessPiece.KingPlayer)
         {
             return false;
         }

@@ -1,13 +1,5 @@
 Todo 
 {
-	Buttons();
-	Timer();
-	Grid();
-	Tapping();
-	if (Tapping() == true) 
-	{
-		Dragging();
-	}
 	IronCounter();
 }
 
@@ -42,4 +34,15 @@ text = "You cannot drag the screen without the pieces moving.";
 IronCounter()
 {
 text = "The ammount of iron is not being counted, make this happen on screen.";
+}
+Done()
+{
+	Buttons();
+	Timer();
+	Grid();
+	Tapping();
+	if (Tapping() == true) 
+	{
+		Dragging();
+	}
 }
