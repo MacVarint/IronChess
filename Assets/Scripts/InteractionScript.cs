@@ -17,21 +17,17 @@ public class InteractionScript : MonoBehaviour
     //end Joinked Variables
     public GameObject redTile;
     public GameObject greenTile;
+    public GameObject yellowTile;
     private GameObject newRedTile;
     private Vector2Int newRedTileGridPos = new Vector2Int(0,0);
     public Transform parent;
-    //Vector2Int[] newGreenTilesPositions = { };
 
-    //List<Vector2Int> newGreenTilesPositions = new List<Vector2Int>();
     Dictionary<Vector2Int, GameObject> newGreenTilesPositions = new Dictionary<Vector2Int, GameObject>();
 
     GridManager gridManager;
 
-    //List<Object> newGreenTilesPositions = new List<Object>();
-
     void Start()
     {
-        // newGreenTilesPositions
         gridManager = parent.GetComponent<GridManager>();
         redTile.SetActive(enabled);
     }
@@ -106,54 +102,12 @@ public class InteractionScript : MonoBehaviour
             {
                 if (newGreenTilesPositions.ContainsKey(hit.transform.GetComponent<Tile>().gridpos))
                 {
-
                     hit.transform.GetComponent<Tile>().current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
                     GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
                     gridManager.AssignSprites();
                 }
-                Destroy(newRedTile);
-                newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
-                newRedTile.transform.position = hit.transform.position;
-
-                Vector2Int currentPos = hit.transform.GetComponent<Tile>().gridpos;
-                newRedTileGridPos = hit.transform.GetComponent<Tile>().gridpos;
-                Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
-                if (movesCurrent != null)
-                {
-                    newGreenTilesPositions.Clear();
-                    for (int i = 0; i < movesCurrent.Length; i++)
-                    {
-                        bool repeat = Moves.getRepeat(hit.transform.GetComponent<Tile>().current); ;
-                        if (!repeat)
-                        {
-                            Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
-                            if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
-                            {
-                                GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
-                                newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * 2, newRedTile.transform.position.y + movesCurrent[i].y * 2, hit.transform.position.z);
-                                newGreenTilesPositions.Add(tempNext, newGreenTile);
-                            }
-                        }
-                        else
-                        {
-                            Vector2Int tempNext = new Vector2Int(currentPos.x, currentPos.y);
-                            for (int j = 1; j < 8; j++)
-                            {
-                                tempNext += new Vector2Int((int)movesCurrent[i].x, (int)movesCurrent[i].y);
-                                if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
-                                {
-                                    GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
-                                    newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent[i].x * j * 2, newRedTile.transform.position.y + movesCurrent[i].y * j * 2, hit.transform.position.z);
-                                    newGreenTilesPositions.Add(tempNext, newGreenTile);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                RedTileController(hit);
+                GreenTileController(hit);
             }
         }
     }
@@ -181,5 +135,68 @@ public class InteractionScript : MonoBehaviour
         target.y = Mathf.Clamp(target.y, minY, maxY);
         target.z = Mathf.Clamp(target.z, minZ, maxZ);
         return target;
-    }    
+    }
+    public void RedTileController(RaycastHit hit)
+    {
+        Destroy(newRedTile);
+        newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
+        newRedTile.transform.position = hit.transform.position;
+        newRedTileGridPos = hit.transform.GetComponent<Tile>().gridpos;
+    }
+    public void GreenTileController(RaycastHit hit)
+    {
+        Vector2Int currentPos = hit.transform.GetComponent<Tile>().gridpos;
+        Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
+        if (movesCurrent != null)
+        {
+            newGreenTilesPositions.Clear();
+            for (int i = 0; i < movesCurrent.Length; i++)
+            {
+                bool repeat = Moves.getRepeat(hit.transform.GetComponent<Tile>().current);
+                bool yellowPlaced = false;
+                if (!repeat)
+                {
+                    Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
+                    if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                    {
+                        InstantiateGreenTiles(movesCurrent[i], 1, hit, tempNext);
+                    }
+                    else if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current != Tile.chessPiece.None)
+                    {
+                        InstantiateYellowTiles(movesCurrent[i], 1, hit, tempNext);
+                    }
+                }
+                else
+                {
+                    Vector2Int tempNext = new Vector2Int(currentPos.x, currentPos.y);
+                    for (int j = 1; j < 8; j++)
+                    {
+                        tempNext += new Vector2Int((int)movesCurrent[i].x, (int)movesCurrent[i].y);
+                        if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                        {
+                            InstantiateGreenTiles(movesCurrent[i], j, hit, tempNext);
+                        }
+                        else if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current != Tile.chessPiece.None)
+                        {
+                            InstantiateYellowTiles(movesCurrent[i], j, hit, tempNext);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void InstantiateGreenTiles(Vector2 movesCurrent, int j, RaycastHit hit, Vector2Int tempNext)
+    {
+        GameObject newGreenTile = Instantiate(greenTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+        newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent.x * j * 2, newRedTile.transform.position.y + movesCurrent.y * j * 2, hit.transform.position.z);
+        newGreenTilesPositions.Add(tempNext, newGreenTile);
+    }
+    private void InstantiateYellowTiles(Vector2 movesCurrent, int j, RaycastHit hit, Vector2Int tempNext)
+    {
+        GameObject newYellowTile = Instantiate(yellowTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
+        newYellowTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent.x * j * 2, newRedTile.transform.position.y + movesCurrent.y * j * 2, hit.transform.position.z);
+        newGreenTilesPositions.Add(tempNext, newYellowTile);
+    }
 }
