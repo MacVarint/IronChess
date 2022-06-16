@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Players : MonoBehaviour
 {
-    bool turn = false;
+    public bool turn = false;
 
     private Tile.chessPiece[] piecesOponent =
     {
@@ -13,7 +13,8 @@ public class Players : MonoBehaviour
         Tile.chessPiece.BishopOponent,
         Tile.chessPiece.TowerOponent,
         Tile.chessPiece.QueenOponent,
-        Tile.chessPiece.KingOponent
+        Tile.chessPiece.KingOponent,
+        Tile.chessPiece.None
     };
     private Tile.chessPiece[] piecesPlayer =
     {
@@ -22,52 +23,38 @@ public class Players : MonoBehaviour
         Tile.chessPiece.BishopPlayer,
         Tile.chessPiece.TowerPlayer,
         Tile.chessPiece.QueenPlayer,
-        Tile.chessPiece.KingPlayer
+        Tile.chessPiece.KingPlayer,
+        Tile.chessPiece.None
     };
 
-    public bool AttackController(Tile.chessPiece attacker, Tile.chessPiece attacked)
+    public bool AttackandMoveController(Tile.chessPiece attacked)
     {
+        //White
         if (!turn)
         {
-            //player1
+            for (int i = 0; i < piecesOponent.Length; i++)
+            {
+                if (attacked == piecesOponent[i])
+                {
+                    Debug.Log("White");
+                    return true;
+                }
+            }
+            
         }
+        //Black
         else
         {
-            //player2
-        }
+            for (int i = 0; i < piecesPlayer.Length; i++)
+            {
+                if (attacked == piecesPlayer[i])
+                {
+                    Debug.Log("Black");
+                    return true;
+                }
 
-        for (int i = 0; i < 6; i++)
-        {
-            if (attacker == piecesOponent[i])
-            {
-                //current is opponent
-                for (int j = 0; j < 6; j++)
-                {
-                    if (attacked == piecesOponent[j])
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
             }
-            else
-            {
-                //current is player
-                for (int j = 0; j < 6; j++)
-                {
-                    if (attacked == piecesPlayer[j])
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
+          
         }
         return false;
     }

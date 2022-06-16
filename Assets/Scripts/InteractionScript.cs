@@ -16,6 +16,7 @@ public class InteractionScript : MonoBehaviour
     public float zoomOutMax = 20;
     //end Joinked Variables
     public GameObject redTile;
+    private bool resetHighlight = false;
     public GameObject greenTile;
     public GameObject yellowTile;
     private GameObject newRedTile;
@@ -26,8 +27,11 @@ public class InteractionScript : MonoBehaviour
 
     GridManager gridManager;
 
+    public Players players;
+
     void Start()
     {
+        players = Camera.main.GetComponent<Players>();
         gridManager = parent.GetComponent<GridManager>();
         redTile.SetActive(enabled);
     }
@@ -38,6 +42,11 @@ public class InteractionScript : MonoBehaviour
         if (Input.touchCount > 0)
         {
             TouchCount();
+        }
+        if (Input.touchCount == 0 && resetHighlight)
+        {
+            Destroy(newRedTile);
+            resetHighlight = false;
         }
         CameraLock();
 
@@ -102,9 +111,16 @@ public class InteractionScript : MonoBehaviour
             {
                 if (newGreenTilesPositions.ContainsKey(hit.transform.GetComponent<Tile>().gridpos))
                 {
-                    hit.transform.GetComponent<Tile>().current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
-                    GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
-                    gridManager.AssignSprites();
+                    if (players.AttackandMoveController(hit.transform.GetComponent<Tile>().current))
+                    {
+                        hit.transform.GetComponent<Tile>().current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
+                        GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
+                        players.turn = !players.turn;
+                        Debug.Log(players.turn);
+                        resetHighlight = true;
+                        gridManager.AssignSprites();
+
+                    }
                 }
                 RedTileController(hit);
                 GreenTileController(hit);
@@ -153,7 +169,6 @@ public class InteractionScript : MonoBehaviour
             for (int i = 0; i < movesCurrent.Length; i++)
             {
                 bool repeat = Moves.getRepeat(hit.transform.GetComponent<Tile>().current);
-                bool yellowPlaced = false;
                 if (!repeat)
                 {
                     Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
@@ -198,5 +213,6 @@ public class InteractionScript : MonoBehaviour
         GameObject newYellowTile = Instantiate(yellowTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
         newYellowTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent.x * j * 2, newRedTile.transform.position.y + movesCurrent.y * j * 2, hit.transform.position.z);
         newGreenTilesPositions.Add(tempNext, newYellowTile);
+        
     }
 }

@@ -427,6 +427,7 @@ MonoBehaviour:
   greenTile: {fileID: 5619617435054159617, guid: 52973b0c1803f684f81094959de8ba66, type: 3}
   yellowTile: {fileID: 5619617435054159617, guid: 3c6646bbe19861f4d9652a1a3b6445f1, type: 3}
   parent: {fileID: 2102111761}
+  players: {fileID: 519420033}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -496,6 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb00820376011c418aa2e673104258d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turn: 0
 --- !u!1 &636606080
 GameObject:
   m_ObjectHideFlags: 0
