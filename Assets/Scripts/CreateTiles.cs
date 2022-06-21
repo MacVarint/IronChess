@@ -42,28 +42,28 @@ public class CreateTiles : MonoBehaviour
     public void StartPositions()
     {
         //Top
-        GridManager.Board[0, 7].current = Tile.chessPiece.TowerOponent;
-        GridManager.Board[1, 7].current = Tile.chessPiece.KnightOponent;
-        GridManager.Board[2, 7].current = Tile.chessPiece.BishopOponent;
+        GridManager.Board[0, 7].current = Tile.chessPiece.TowerOpponent;
+        GridManager.Board[1, 7].current = Tile.chessPiece.KnightOpponent;
+        GridManager.Board[2, 7].current = Tile.chessPiece.BishopOpponent;
 
         if (gridManager.startsAsWhite == true)
         {
-            GridManager.Board[3, 7].current = Tile.chessPiece.QueenOponent;
-            GridManager.Board[4, 7].current = Tile.chessPiece.KingOponent;
+            GridManager.Board[3, 7].current = Tile.chessPiece.QueenOpponent;
+            GridManager.Board[4, 7].current = Tile.chessPiece.KingOpponent;
         }
         else
         {
-            GridManager.Board[4, 7].current = Tile.chessPiece.QueenOponent;
-            GridManager.Board[3, 7].current = Tile.chessPiece.KingOponent;
+            GridManager.Board[4, 7].current = Tile.chessPiece.QueenOpponent;
+            GridManager.Board[3, 7].current = Tile.chessPiece.KingOpponent;
         }
 
-        GridManager.Board[5, 7].current = Tile.chessPiece.BishopOponent;
-        GridManager.Board[6, 7].current = Tile.chessPiece.KnightOponent;
-        GridManager.Board[7, 7].current = Tile.chessPiece.TowerOponent;
+        GridManager.Board[5, 7].current = Tile.chessPiece.BishopOpponent;
+        GridManager.Board[6, 7].current = Tile.chessPiece.KnightOpponent;
+        GridManager.Board[7, 7].current = Tile.chessPiece.TowerOpponent;
 
         for (int i = 0; i < 8; i++)
         {
-            GridManager.Board[i, 6].current = Tile.chessPiece.PawnOponent;
+            GridManager.Board[i, 6].current = Tile.chessPiece.PawnOpponent;
         }
 
         //Bottom

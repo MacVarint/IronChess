@@ -1,22 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Players : MonoBehaviour
 {
     public bool turn = false;
+    public TextMeshPro tmp0;
+    public TextMeshPro tmp1;
 
-    private Tile.chessPiece[] piecesOponent =
+    public Tile.chessPiece[] piecesOpponent =
     {
-        Tile.chessPiece.PawnOponent,
-        Tile.chessPiece.KnightOponent,
-        Tile.chessPiece.BishopOponent,
-        Tile.chessPiece.TowerOponent,
-        Tile.chessPiece.QueenOponent,
-        Tile.chessPiece.KingOponent,
+        Tile.chessPiece.PawnOpponent,
+        Tile.chessPiece.KnightOpponent,
+        Tile.chessPiece.BishopOpponent,
+        Tile.chessPiece.TowerOpponent,
+        Tile.chessPiece.QueenOpponent,
+        Tile.chessPiece.KingOpponent,
         Tile.chessPiece.None
     };
-    private Tile.chessPiece[] piecesPlayer =
+    public Tile.chessPiece[] piecesPlayer =
     {
         Tile.chessPiece.PawnPlayer,
         Tile.chessPiece.KnightPlayer,
@@ -27,34 +30,33 @@ public class Players : MonoBehaviour
         Tile.chessPiece.None
     };
 
-    public bool AttackandMoveController(Tile.chessPiece attacked)
+    public bool AttackandMoveController(Tile.chessPiece target)
     {
         //White
         if (!turn)
         {
-            for (int i = 0; i < piecesOponent.Length; i++)
+            for (int i = 0; i < piecesOpponent.Length; i++)
             {
-                if (attacked == piecesOponent[i])
+                if (target == piecesOpponent[i])
                 {
-                    Debug.Log("White");
+                    tmp0.text = "White";
+                    tmp1.text = "White";
                     return true;
                 }
             }
-            
         }
         //Black
         else
         {
             for (int i = 0; i < piecesPlayer.Length; i++)
             {
-                if (attacked == piecesPlayer[i])
+                if (target == piecesPlayer[i])
                 {
-                    Debug.Log("Black");
+                    tmp0.text = "Black";
+                    tmp1.text = "Black";
                     return true;
                 }
-
             }
-          
         }
         return false;
     }

@@ -8,7 +8,7 @@ public static class Moves
     {
         new Vector2(0, 1)
     };
-    private static Vector2[] pawnOponent =
+    private static Vector2[] pawnOpponent =
     {
         new Vector2(0, -1)
     };
@@ -86,27 +86,27 @@ public static class Moves
         {
             return king;
         }
-        if (piece == Tile.chessPiece.PawnOponent)
+        if (piece == Tile.chessPiece.PawnOpponent)
         {
-            return pawnOponent;
+            return pawnOpponent;
         }
-        if (piece == Tile.chessPiece.KnightOponent)
+        if (piece == Tile.chessPiece.KnightOpponent)
         {
             return knight;
         }
-        if (piece == Tile.chessPiece.BishopOponent)
+        if (piece == Tile.chessPiece.BishopOpponent)
         {
             return bishop;
         }
-        if (piece == Tile.chessPiece.TowerOponent)
+        if (piece == Tile.chessPiece.TowerOpponent)
         {
             return tower;
         }
-        if (piece == Tile.chessPiece.QueenOponent)
+        if (piece == Tile.chessPiece.QueenOpponent)
         {
             return queen;
         }
-        if (piece == Tile.chessPiece.KingOponent)
+        if (piece == Tile.chessPiece.KingOpponent)
         {
             return king;
         }
@@ -115,7 +115,7 @@ public static class Moves
 
     public static bool getRepeat(Tile.chessPiece piece)
     {
-        if (piece == Tile.chessPiece.PawnOponent || piece == Tile.chessPiece.PawnPlayer || piece == Tile.chessPiece.KnightOponent || piece == Tile.chessPiece.KnightPlayer || piece == Tile.chessPiece.KingOponent || piece == Tile.chessPiece.KingPlayer)
+        if (piece == Tile.chessPiece.PawnOpponent || piece == Tile.chessPiece.PawnPlayer || piece == Tile.chessPiece.KnightOpponent || piece == Tile.chessPiece.KnightPlayer || piece == Tile.chessPiece.KingOpponent || piece == Tile.chessPiece.KingPlayer)
         {
             return false;
         }

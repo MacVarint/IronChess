@@ -46,3 +46,17 @@ Done()
 		Dragging();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+Current bug has to do with red tiles

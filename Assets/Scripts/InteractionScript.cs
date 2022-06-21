@@ -33,7 +33,6 @@ public class InteractionScript : MonoBehaviour
     {
         players = Camera.main.GetComponent<Players>();
         gridManager = parent.GetComponent<GridManager>();
-        redTile.SetActive(enabled);
     }
 
     void Update()
@@ -49,8 +48,8 @@ public class InteractionScript : MonoBehaviour
             resetHighlight = false;
         }
         CameraLock();
-
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(pos, pos + Vector3.forward * 10);
@@ -109,21 +108,28 @@ public class InteractionScript : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, transform.forward, out hit, 10))
             {
-                if (newGreenTilesPositions.ContainsKey(hit.transform.GetComponent<Tile>().gridpos))
+                //checks if the chesspiece is currently moveble compared to playerTurns
+                for (int i = 0; i < players.piecesPlayer.Length; i++)
                 {
-                    if (players.AttackandMoveController(hit.transform.GetComponent<Tile>().current))
+                    if (!players.turn) 
                     {
-                        hit.transform.GetComponent<Tile>().current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
-                        GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
-                        players.turn = !players.turn;
-                        Debug.Log(players.turn);
-                        resetHighlight = true;
-                        gridManager.AssignSprites();
-
+                        //Checks if the Selected is White
+                        if (GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current == players.piecesPlayer[i])
+                        {
+                            MoveSelected(hit);
+                            break;
+                        }
+                    }
+                    if (players.turn)
+                    {
+                        //Checks if the Selected is Black
+                        if (GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current == players.piecesOpponent[i])
+                        {
+                            MoveSelected(hit);
+                            break;
+                        }
                     }
                 }
-                RedTileController(hit);
-                GreenTileController(hit);
             }
         }
     }
@@ -214,5 +220,27 @@ public class InteractionScript : MonoBehaviour
         newYellowTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent.x * j * 2, newRedTile.transform.position.y + movesCurrent.y * j * 2, hit.transform.position.z);
         newGreenTilesPositions.Add(tempNext, newYellowTile);
         
+    }
+    private void MoveSelected(RaycastHit hit)
+    {
+        //Checks if the clicked tile is highlighted(green)
+        if (newGreenTilesPositions.ContainsKey(hit.transform.GetComponent<Tile>().gridpos))
+        {
+            //Checks if the target is empty or an enemy
+            if (players.AttackandMoveController(hit.transform.GetComponent<Tile>().current))
+            {
+                hit.transform.GetComponent<Tile>().current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
+                GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
+                players.turn = !players.turn;
+                resetHighlight = true;
+                gridManager.AssignSprites();
+            }
+        }
+        //calls up the tiling systems
+        else
+        {
+            RedTileController(hit);
+            GreenTileController(hit);
+        }
     }
 }
