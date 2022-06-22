@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Players : MonoBehaviour
 {
     public bool turn = false;
-    public TextMeshPro tmp0;
-    public TextMeshPro tmp1;
+
 
     public Tile.chessPiece[] piecesOpponent =
     {
@@ -16,8 +16,7 @@ public class Players : MonoBehaviour
         Tile.chessPiece.BishopOpponent,
         Tile.chessPiece.TowerOpponent,
         Tile.chessPiece.QueenOpponent,
-        Tile.chessPiece.KingOpponent,
-        Tile.chessPiece.None
+        Tile.chessPiece.KingOpponent
     };
     public Tile.chessPiece[] piecesPlayer =
     {
@@ -26,21 +25,20 @@ public class Players : MonoBehaviour
         Tile.chessPiece.BishopPlayer,
         Tile.chessPiece.TowerPlayer,
         Tile.chessPiece.QueenPlayer,
-        Tile.chessPiece.KingPlayer,
-        Tile.chessPiece.None
+        Tile.chessPiece.KingPlayer
     };
 
-    public bool AttackandMoveController(Tile.chessPiece target)
+    //check if attack is allowed.
+    public bool AttackController(Tile.chessPiece target)
     {
         //White
         if (!turn)
         {
+
             for (int i = 0; i < piecesOpponent.Length; i++)
             {
-                if (target == piecesOpponent[i])
+                if (piecesOpponent[i].Equals(target))
                 {
-                    tmp0.text = "White";
-                    tmp1.text = "White";
                     return true;
                 }
             }
@@ -52,12 +50,61 @@ public class Players : MonoBehaviour
             {
                 if (target == piecesPlayer[i])
                 {
-                    tmp0.text = "Black";
-                    tmp1.text = "Black";
                     return true;
                 }
             }
         }
         return false;
+    }   
+    public bool CanISelectThis(Tile.chessPiece target)
+    {
+        if (!turn)
+        {
+            if(Array.IndexOf(piecesPlayer, target) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (Array.IndexOf(piecesOpponent, target) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public bool CanIHitThis(Tile.chessPiece target)
+    {
+        if (turn)
+        {
+            if (Array.IndexOf(piecesPlayer, target) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (Array.IndexOf(piecesOpponent, target) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

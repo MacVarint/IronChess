@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class InteractionScript : MonoBehaviour
 {
@@ -42,11 +43,6 @@ public class InteractionScript : MonoBehaviour
         {
             TouchCount();
         }
-        if (Input.touchCount == 0 && resetHighlight)
-        {
-            Destroy(newRedTile);
-            resetHighlight = false;
-        }
         CameraLock();
     }
 
@@ -56,6 +52,8 @@ public class InteractionScript : MonoBehaviour
         Gizmos.DrawLine(cameraLockTopRight, cameraLockTopRight + Vector3.forward * 10);
         Gizmos.DrawLine(cameraLockBottomLeft, cameraLockBottomLeft + Vector3.forward * 10);
     }
+
+    //Makes sure the camera stays within the borders op the playing field no matter the zoom. 
     private void CameraLock()
     {
         cameraLockTopRight = new Vector3(Camera.main.transform.position.x + aspectWidth / 20 * Camera.main.orthographicSize, Camera.main.transform.position.y + aspectHeight / 20 * Camera.main.orthographicSize, -10);
@@ -99,6 +97,8 @@ public class InteractionScript : MonoBehaviour
             touchStart = ((Input.GetTouch(1).position + Input.GetTouch(0).position) / 2);
         }
     }
+
+
     private void TileSelection()
     {
         if (Input.GetTouch(0).phase == TouchPhase.Began)
@@ -108,28 +108,8 @@ public class InteractionScript : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, transform.forward, out hit, 10))
             {
-                //checks if the chesspiece is currently moveble compared to playerTurns
-                for (int i = 0; i < players.piecesPlayer.Length; i++)
-                {
-                    if (!players.turn) 
-                    {
-                        //Checks if the Selected is White
-                        if (GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current == players.piecesPlayer[i])
-                        {
-                            MoveSelected(hit);
-                            break;
-                        }
-                    }
-                    if (players.turn)
-                    {
-                        //Checks if the Selected is Black
-                        if (GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current == players.piecesOpponent[i])
-                        {
-                            MoveSelected(hit);
-                            break;
-                        }
-                    }
-                }
+                InteractionOrSelection(hit);
+
             }
         }
     }
@@ -147,10 +127,12 @@ public class InteractionScript : MonoBehaviour
         float difference = currentMagnitude - prevMagnitude;
         JoinkedZoom(difference * 0.01f / 20 * Camera.main.orthographicSize);
     }
+    
     void JoinkedZoom(float increment)
     {
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomOutMin, zoomOutMax);
     }
+
     public Vector3 Clamp(Vector3 target, float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
     {
         target.x = Mathf.Clamp(target.x, minX, maxX);
@@ -158,33 +140,46 @@ public class InteractionScript : MonoBehaviour
         target.z = Mathf.Clamp(target.z, minZ, maxZ);
         return target;
     }
-    public void RedTileController(RaycastHit hit)
+
+    public void CreateRedTile(RaycastHit hit)
     {
-        Destroy(newRedTile);
+        if (newRedTile != null)
+        {
+            Destroy(newRedTile);
+        }
         newRedTile = Instantiate(redTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, parent);
         newRedTile.transform.position = hit.transform.position;
         newRedTileGridPos = hit.transform.GetComponent<Tile>().gridpos;
+
+        CreateGreenTiles(hit);
     }
-    public void GreenTileController(RaycastHit hit)
+
+    public void CreateGreenTiles(RaycastHit hit)
     {
         Vector2Int currentPos = hit.transform.GetComponent<Tile>().gridpos;
-        Vector2[] movesCurrent = Moves.getMoveSet(hit.transform.GetComponent<Tile>().current);
+        Tile.chessPiece hitPiece = hit.transform.GetComponent<Tile>().current;
+        Vector2[] movesCurrent = Moves.getMoveSet(hitPiece);
         if (movesCurrent != null)
         {
             newGreenTilesPositions.Clear();
+
             for (int i = 0; i < movesCurrent.Length; i++)
             {
-                bool repeat = Moves.getRepeat(hit.transform.GetComponent<Tile>().current);
+                bool repeat = Moves.getRepeat(hitPiece);
                 if (!repeat)
                 {
                     Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
-                    if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                    if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
                     {
-                        InstantiateGreenTiles(movesCurrent[i], 1, hit, tempNext);
-                    }
-                    else if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current != Tile.chessPiece.None)
-                    {
-                        InstantiateYellowTiles(movesCurrent[i], 1, hit, tempNext);
+                        if (GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                        {
+                            InstantiateGreenTiles(movesCurrent[i], 1, hit, tempNext);
+                        }
+                        else if (players.CanIHitThis(GridManager.Board[tempNext.x, tempNext.y].current))
+                        {
+                            InstantiateYellowTiles(movesCurrent[i], 1, hit, tempNext);
+                        }
+                        
                     }
                 }
                 else
@@ -193,14 +188,20 @@ public class InteractionScript : MonoBehaviour
                     for (int j = 1; j < 8; j++)
                     {
                         tempNext += new Vector2Int((int)movesCurrent[i].x, (int)movesCurrent[i].y);
-                        if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
-                        {
-                            InstantiateGreenTiles(movesCurrent[i], j, hit, tempNext);
-                        }
-                        else if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0 && GridManager.Board[tempNext.x, tempNext.y].current != Tile.chessPiece.None)
-                        {
-                            InstantiateYellowTiles(movesCurrent[i], j, hit, tempNext);
-                            break;
+                        if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0) {
+                            if (GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                            {
+                                InstantiateGreenTiles(movesCurrent[i], j, hit, tempNext);
+                            }
+                            else if (players.CanIHitThis(GridManager.Board[tempNext.x, tempNext.y].current))
+                            {
+                                InstantiateYellowTiles(movesCurrent[i], j, hit, tempNext);
+                                break;
+                            }
+                            else
+                            {
+                                break;
+                            } 
                         }
                     }
                 }
@@ -214,33 +215,64 @@ public class InteractionScript : MonoBehaviour
         newGreenTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent.x * j * 2, newRedTile.transform.position.y + movesCurrent.y * j * 2, hit.transform.position.z);
         newGreenTilesPositions.Add(tempNext, newGreenTile);
     }
+
     private void InstantiateYellowTiles(Vector2 movesCurrent, int j, RaycastHit hit, Vector2Int tempNext)
     {
         GameObject newYellowTile = Instantiate(yellowTile, new Vector3(redTile.transform.position.x, redTile.transform.position.y, redTile.transform.position.z), Quaternion.identity, newRedTile.transform);
         newYellowTile.transform.position = new Vector3(newRedTile.transform.position.x + movesCurrent.x * j * 2, newRedTile.transform.position.y + movesCurrent.y * j * 2, hit.transform.position.z);
         newGreenTilesPositions.Add(tempNext, newYellowTile);
-        
     }
-    private void MoveSelected(RaycastHit hit)
+
+    private void InteractionOrSelection(RaycastHit hit)
     {
-        //Checks if the clicked tile is highlighted(green)
-        if (newGreenTilesPositions.ContainsKey(hit.transform.GetComponent<Tile>().gridpos))
+        Vector2Int hitGridPos = hit.transform.GetComponent<Tile>().gridpos;
+        Tile.chessPiece hitPiece = hit.transform.GetComponent<Tile>().current;
+        // if there is no red tile that means nothing has been selected so that is main prio.
+        if (newRedTile == null)
         {
-            //Checks if the target is empty or an enemy
-            if (players.AttackandMoveController(hit.transform.GetComponent<Tile>().current))
+            if (players.CanISelectThis(hitPiece))
             {
-                hit.transform.GetComponent<Tile>().current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
-                GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
-                players.turn = !players.turn;
-                resetHighlight = true;
-                gridManager.AssignSprites();
+                CreateRedTile(hit);
             }
         }
-        //calls up the tiling systems
-        else
+        // if the tile we pressed is within green tiles and we have a red tile that means we want to move.
+        else if (newGreenTilesPositions.ContainsKey(hitGridPos))
         {
-            RedTileController(hit);
-            GreenTileController(hit);
+            //Checks if the target is empty or an enemy
+            if (players.AttackController(hitPiece))
+            {
+                GridManager.Board[hitGridPos.x, hitGridPos.y].current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
+                GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
+                players.turn = !players.turn;
+
+                if (newRedTile != null)
+                {
+                    Destroy(newRedTile);
+                }
+
+                gridManager.AssignSprites();
+                Debug.Log("You hitted a enemy piece");
+            }
+            else
+            {
+                GridManager.Board[hitGridPos.x, hitGridPos.y].current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
+                GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
+                players.turn = !players.turn;
+
+                if (newRedTile != null)
+                {
+                    Destroy(newRedTile);
+                }
+
+                gridManager.AssignSprites();
+                Debug.Log("You moved your piece");
+            }
+        } else if (hitPiece != Tile.chessPiece.None)
+        {
+            if (players.CanISelectThis(hitPiece))
+            {
+                CreateRedTile(hit);
+            }
         }
     }
 }
