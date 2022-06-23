@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
 
 public class InteractionScript : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class InteractionScript : MonoBehaviour
     public float zoomOutMax = 20;
     //end Joinked Variables
     public GameObject redTile;
-    private bool resetHighlight = false;
     public GameObject greenTile;
     public GameObject yellowTile;
     private GameObject newRedTile;
@@ -171,15 +171,55 @@ public class InteractionScript : MonoBehaviour
                     Vector2Int tempNext = new Vector2Int(currentPos.x + (int)movesCurrent[i].x, currentPos.y + (int)movesCurrent[i].y);
                     if (tempNext.x < 8 && tempNext.x >= 0 && tempNext.y < 8 && tempNext.y >= 0)
                     {
-                        if (GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                        //checks if the current piece is a pawn
+                        if (hitPiece == Tile.chessPiece.PawnOpponent || hitPiece == Tile.chessPiece.PawnPlayer)
                         {
-                            InstantiateGreenTiles(movesCurrent[i], 1, hit, tempNext);
+                            if (players.CanIHitThis(GridManager.Board[tempNext.x + 1, tempNext.y].current))
+                            {
+                                InstantiateYellowTiles(new Vector2(movesCurrent[i].x + 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x + 1, tempNext.y));
+                            }
+                            if (players.CanIHitThis(GridManager.Board[tempNext.x - 1, tempNext.y].current))
+                            {
+                                InstantiateYellowTiles(new Vector2(movesCurrent[i].x - 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x - 1, tempNext.y));
+                            }
+                            if (GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                            {
+                                InstantiateGreenTiles(movesCurrent[i], 1, hit, tempNext);
+                                //checks if the pawn has not moved yet
+                                if (hit.transform.GetComponent<Tile>().hasNotMovedYet)
+                                {
+                                    
+                                    //checks from what team the current is
+                                    if (hitPiece == Tile.chessPiece.PawnOpponent)
+                                    {
+                                        if (GridManager.Board[tempNext.x, tempNext.y - 1].current == Tile.chessPiece.None)
+                                        {
+                                            InstantiateGreenTiles(new Vector2(movesCurrent[i].x, movesCurrent[i].y - 1), 1, hit, new Vector2Int(tempNext.x, tempNext.y - 1));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (GridManager.Board[tempNext.x, tempNext.y + 1].current == Tile.chessPiece.None)
+                                        {
+                                            InstantiateGreenTiles(new Vector2(movesCurrent[i].x, movesCurrent[i].y + 1), 1, hit, new Vector2Int(tempNext.x, tempNext.y + 1));
+                                        }
+                                    }
+                                }
+           
+                            }
+
                         }
-                        else if (players.CanIHitThis(GridManager.Board[tempNext.x, tempNext.y].current))
+                        else
                         {
-                            InstantiateYellowTiles(movesCurrent[i], 1, hit, tempNext);
+                            if (GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
+                            {
+                                InstantiateGreenTiles(movesCurrent[i], 1, hit, tempNext);
+                            }
+                            else if (players.CanIHitThis(GridManager.Board[tempNext.x, tempNext.y].current))
+                            {
+                                InstantiateYellowTiles(movesCurrent[i], 1, hit, tempNext);
+                            }
                         }
-                        
                     }
                 }
                 else
@@ -241,8 +281,12 @@ public class InteractionScript : MonoBehaviour
             //Checks if the target is empty or an enemy
             if (players.AttackController(hitPiece))
             {
+                PointDistributor(hitGridPos);
                 GridManager.Board[hitGridPos.x, hitGridPos.y].current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
+                GridManager.Board[hitGridPos.x, hitGridPos.y].hasNotMovedYet = false;
                 GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
+
+
                 players.turn = !players.turn;
 
                 if (newRedTile != null)
@@ -256,7 +300,9 @@ public class InteractionScript : MonoBehaviour
             else
             {
                 GridManager.Board[hitGridPos.x, hitGridPos.y].current = GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current;
+                GridManager.Board[hitGridPos.x, hitGridPos.y].hasNotMovedYet = false;
                 GridManager.Board[newRedTileGridPos.x, newRedTileGridPos.y].current = Tile.chessPiece.None;
+
                 players.turn = !players.turn;
 
                 if (newRedTile != null)
@@ -265,6 +311,7 @@ public class InteractionScript : MonoBehaviour
                 }
 
                 gridManager.AssignSprites();
+
                 Debug.Log("You moved your piece");
             }
         } else if (hitPiece != Tile.chessPiece.None)
@@ -273,6 +320,67 @@ public class InteractionScript : MonoBehaviour
             {
                 CreateRedTile(hit);
             }
+        }
+    }
+    private void PointDistributor(Vector2Int hitGridPos)
+    {
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.PawnOpponent)
+        {
+            players.ironPlayer += 5;
+            players.ironPlayerTMP.text = "" + players.ironPlayer;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.PawnPlayer)
+        {
+            players.ironOpponent += 5;
+            players.ironOpponentTMP.text = "" + players.ironOpponent;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.KnightOpponent)
+        {
+            players.ironPlayer += 8;
+            players.ironPlayerTMP.text = "" + players.ironPlayer;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.KnightPlayer)
+        {
+            players.ironOpponent += 8;
+            players.ironOpponentTMP.text = "" + players.ironOpponent;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.BishopOpponent)
+        {
+            players.ironPlayer += 10;
+            players.ironPlayerTMP.text = "" + players.ironPlayer;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.BishopPlayer)
+        {
+            players.ironOpponent += 10;
+            players.ironOpponentTMP.text = "" + players.ironOpponent;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.TowerOpponent)
+        {
+            players.ironPlayer += 12;
+            players.ironPlayerTMP.text = "" + players.ironPlayer;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.TowerPlayer)
+        {
+            players.ironOpponent += 12;
+            players.ironOpponentTMP.text = "" + players.ironOpponent;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.QueenOpponent)
+        {
+            players.ironPlayer += 20;
+            players.ironPlayerTMP.text = "" + players.ironPlayer;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.QueenPlayer)
+        {
+            players.ironOpponent += 20;
+            players.ironOpponentTMP.text = "" + players.ironOpponent;
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.KingOpponent)
+        {
+            SceneManager.LoadScene("WhiteWonScene");
+        }
+        if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.KingPlayer)
+        {
+            SceneManager.LoadScene("BlackWonScene");
         }
     }
 }

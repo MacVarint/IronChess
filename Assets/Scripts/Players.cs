@@ -7,6 +7,10 @@ using System;
 public class Players : MonoBehaviour
 {
     public bool turn = false;
+    public int ironPlayer = 0;
+    public int ironOpponent = 0;
+    public TextMeshPro ironPlayerTMP;
+    public TextMeshPro ironOpponentTMP;
 
 
     public Tile.chessPiece[] piecesOpponent =

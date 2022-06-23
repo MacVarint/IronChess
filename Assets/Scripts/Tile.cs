@@ -8,5 +8,5 @@ public class Tile : MonoBehaviour
     public Vector2Int gridpos;
     public chessPiece current = chessPiece.None;
     public SpriteRenderer imageHolder;
-
+    public bool hasNotMovedYet = true;
 }

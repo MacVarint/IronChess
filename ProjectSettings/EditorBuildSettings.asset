@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Local Default.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/WhiteWonScene.unity
+    guid: 2b9400b9323e98c41af207471a0a83ac
+  - enabled: 1
+    path: Assets/Scenes/BlackWonScene.unity
+    guid: 44a5e7b1c1886a947ac6a5f3f5e98984
   m_configObjects: {}

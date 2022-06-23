@@ -13,6 +13,9 @@ public class TurnText : MonoBehaviour
 
     public string title1 = "White";
     public string title2 = "Black";
+
+    public TimerScript TimerPlayer;
+    public TimerScript TimerOpponent;
     // Start is called before the first frame update
     void Start() {
         LastTurn = players.turn;
@@ -27,11 +30,15 @@ public class TurnText : MonoBehaviour
             {
                 tmp0.text = title2;
                 tmp1.text = title2;
+                TimerPlayer.turnOnTimer = false;
+                TimerOpponent.turnOnTimer = true;
             }
             else
             {
                 tmp0.text = title1;
                 tmp1.text = title1;
+                TimerPlayer.turnOnTimer = true;
+                TimerOpponent.turnOnTimer = false;
             }
             LastTurn = players.turn;
         }

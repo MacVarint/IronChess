@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class TimerScript : MonoBehaviour
 {
     public TextMeshPro fullTime;
@@ -15,11 +16,13 @@ public class TimerScript : MonoBehaviour
     public int minutes = 0;
     public bool turnOnTimer = true;
     public bool countDown = false;
+    public bool timerIsFromWhite;
+    public string timerText;
 
     // Start is called before the first frame update
     void Start()
     {
-        fullTime.text = "00:00:000";
+        fullTime.text = timerText;
     }
 
     // Update is called once per frame
@@ -27,7 +30,21 @@ public class TimerScript : MonoBehaviour
     {
         if (turnOnTimer)
         {
-            Converter();
+            if (timer <= 0)
+            {
+                if (timerIsFromWhite)
+                {
+                    SceneManager.LoadScene("BlackWonScene");
+                }
+                else
+                {
+                    SceneManager.LoadScene("WhiteWonScene");
+                }
+            }
+            else
+            {
+                Converter();
+            }
         }
     }
     public void Converter()
@@ -44,10 +61,9 @@ public class TimerScript : MonoBehaviour
         seconds = (int)Mathf.Floor(timer % 60);
         minutes = (int)Mathf.Floor(timer / 60);
 
-        millisecondsText = milliSeconds.ToString("000");
         secondsText = seconds.ToString("00");
         minutesText = minutes.ToString("00");
 
-        fullTime.text = "" + minutesText + ":" + secondsText + ":" + millisecondsText;
+        fullTime.text = "" + minutesText + ":" + secondsText;
     }
 }

@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10:00:000
+  m_text: 10:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -524,7 +524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460119014}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.75, y: -21.09, z: 0}
+  m_LocalPosition: {x: 6.35, y: -21.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 636606081}
@@ -544,12 +544,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullTime: {fileID: 636606082}
-  timer: 600
+  timer: 1800
   milliSeconds: 0
   seconds: 0
   minutes: 0
   turnOnTimer: 1
   countDown: 1
+  timerIsFromWhite: 1
+  timerText: 30:00
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +671,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turn: 0
+  ironPlayer: 0
+  ironOpponent: 0
+  ironPlayerTMP: {fileID: 1082693282}
+  ironOpponentTMP: {fileID: 1046384977}
   piecesOpponent: 060000000700000008000000090000000a0000000b000000
   piecesPlayer: 000000000100000002000000030000000400000005000000
 --- !u!1 &636606080
@@ -728,7 +734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10:00:000
+  m_text: 10:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1044,7 +1050,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860048040}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -3.75, y: 21.09, z: 0}
+  m_LocalPosition: {x: -6.35, y: 21.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9921426}
@@ -1064,12 +1070,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullTime: {fileID: 9921427}
-  timer: 600
+  timer: 1800
   milliSeconds: 0
   seconds: 0
   minutes: 0
-  turnOnTimer: 1
+  turnOnTimer: 0
   countDown: 1
+  timerIsFromWhite: 0
+  timerText: 30:00
 --- !u!1 &872036288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,7 +1467,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1629,7 +1637,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2029,6 +2037,8 @@ MonoBehaviour:
   tmp1: {fileID: 1966189686}
   title1: White
   title2: Black
+  TimerPlayer: {fileID: 460119016}
+  TimerOpponent: {fileID: 860048042}
 --- !u!1 &1966189684
 GameObject:
   m_ObjectHideFlags: 0
