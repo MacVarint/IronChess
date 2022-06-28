@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "RF8R90FY4QA",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "RF8R90FY4QA",
+        "name": "com.DefaultCompany.com.unity.template.mobile2D",
+        "processId": 20377,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,103 +11,43 @@
         {
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 23859,
-            "exited": true
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 30573,
-            "exited": true
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 27679,
-            "exited": true
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 3788,
-            "exited": true
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 13803,
-            "exited": true
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.unity3d.mobileremote",
-            "processId": 12969,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 18116,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 16289,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 16787,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 17734,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 21327,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
-            "processId": 22728,
-            "exited": false
-        },
-        {
-            "deviceId": "RF8R90FY4QA",
-            "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 26457,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 30036,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 2117,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 31227,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "RF8R90FY4QA",
             "name": "com.DefaultCompany.com.unity.template.mobile2D",
             "processId": 2754,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.unity3d.mobileremote",
+            "processId": 15176,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8R90FY4QA",
+            "name": "com.DefaultCompany.com.unity.template.mobile2D",
+            "processId": 20377,
             "exited": false
         }
     ],

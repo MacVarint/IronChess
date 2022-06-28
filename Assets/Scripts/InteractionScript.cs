@@ -174,13 +174,17 @@ public class InteractionScript : MonoBehaviour
                         //checks if the current piece is a pawn
                         if (hitPiece == Tile.chessPiece.PawnOpponent || hitPiece == Tile.chessPiece.PawnPlayer)
                         {
-                            if (players.CanIHitThis(GridManager.Board[tempNext.x + 1, tempNext.y].current))
+                            //Checks if tempNext is within the bounds of the Board array
+                            if (tempNext.x + 1 < 8 && tempNext.x - 1 > 0)
                             {
-                                InstantiateYellowTiles(new Vector2(movesCurrent[i].x + 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x + 1, tempNext.y));
-                            }
-                            if (players.CanIHitThis(GridManager.Board[tempNext.x - 1, tempNext.y].current))
-                            {
-                                InstantiateYellowTiles(new Vector2(movesCurrent[i].x - 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x - 1, tempNext.y));
+                                if (players.CanIHitThis(GridManager.Board[tempNext.x + 1, tempNext.y].current))
+                                {
+                                    InstantiateYellowTiles(new Vector2(movesCurrent[i].x + 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x + 1, tempNext.y));
+                                }
+                                if (players.CanIHitThis(GridManager.Board[tempNext.x - 1, tempNext.y].current))
+                                {
+                                    InstantiateYellowTiles(new Vector2(movesCurrent[i].x - 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x - 1, tempNext.y));
+                                }
                             }
                             if (GridManager.Board[tempNext.x, tempNext.y].current == Tile.chessPiece.None)
                             {
@@ -188,7 +192,6 @@ public class InteractionScript : MonoBehaviour
                                 //checks if the pawn has not moved yet
                                 if (hit.transform.GetComponent<Tile>().hasNotMovedYet)
                                 {
-                                    
                                     //checks from what team the current is
                                     if (hitPiece == Tile.chessPiece.PawnOpponent)
                                     {
@@ -205,9 +208,7 @@ public class InteractionScript : MonoBehaviour
                                         }
                                     }
                                 }
-           
                             }
-
                         }
                         else
                         {
