@@ -40,8 +40,15 @@ public class InteractionScript : MonoBehaviour
 
         escapeMenuPlayer = GameObject.Find("PlayField/Escape Menu Player");
         escapeMenuOpponent = GameObject.Find("PlayField/Escape Menu Opponent");
-        escapeMenuPlayer.SetActive(false);
-        escapeMenuOpponent.SetActive(false);
+
+        if (escapeMenuPlayer != null)
+        {
+            escapeMenuPlayer.SetActive(false);
+        }
+        if (escapeMenuOpponent != null)
+        {
+            escapeMenuOpponent.SetActive(false);
+        }
     }
 
     void Update()
