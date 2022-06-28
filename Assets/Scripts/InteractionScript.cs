@@ -30,10 +30,18 @@ public class InteractionScript : MonoBehaviour
 
     public Players players;
 
+    GameObject escapeMenuPlayer;
+    GameObject escapeMenuOpponent;
+
     void Start()
     {
         players = Camera.main.GetComponent<Players>();
         gridManager = parent.GetComponent<GridManager>();
+
+        escapeMenuPlayer = GameObject.Find("PlayField/Escape Menu Player");
+        escapeMenuOpponent = GameObject.Find("PlayField/Escape Menu Opponent");
+        escapeMenuPlayer.SetActive(false);
+        escapeMenuOpponent.SetActive(false);
     }
 
     void Update()
@@ -392,14 +400,6 @@ public class InteractionScript : MonoBehaviour
     }
     private void OffBoardButtons(RaycastHit hit)
     {
-        if (hit.transform.name == "Settings Player")
-        {
-            Debug.Log("Settings Player");
-        }
-        if (hit.transform.name == "Settings Opponent")
-        {
-            Debug.Log("Settings Opponent");
-        }
         if (hit.transform.name == "Buy Menu Player")
         {
             Debug.Log("Buy Menu Player");
@@ -431,6 +431,19 @@ public class InteractionScript : MonoBehaviour
         if (hit.transform.name == "Help Menu")
         {
             SceneManager.LoadScene("Help Menu");
+        }
+        if (hit.transform.name == "Resume")
+        {
+            escapeMenuPlayer.SetActive(false);
+            escapeMenuOpponent.SetActive(false);
+        }
+        if (hit.transform.name == "Settings Player")
+        {
+            escapeMenuPlayer.SetActive(true);
+        }
+        if (hit.transform.name == "Settings Opponent")
+        {
+            escapeMenuOpponent.SetActive(true);
         }
     }
 }
