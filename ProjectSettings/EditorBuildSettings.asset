@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: 0fa84a0828d9a94469755a5c43987b32
+  - enabled: 1
     path: Assets/Scenes/Local Default.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -14,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BlackWonScene.unity
     guid: 44a5e7b1c1886a947ac6a5f3f5e98984
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: 7ccbdbe360777bc4d94935f04e28fb85
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: c2a4f66c8d20c1a4aa0f7e479891adfc
+  - enabled: 1
+    path: Assets/Scenes/Help Menu.unity
+    guid: fec244c3a0130bc4e805e420c0ddb646
   m_configObjects: {}

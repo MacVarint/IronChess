@@ -108,8 +108,14 @@ public class InteractionScript : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, transform.forward, out hit, 10))
             {
-                InteractionOrSelection(hit);
-
+                if (hit.transform.GetComponent<Tile>() == null)
+                {
+                    OffBoardButtons(hit);
+                }
+                else
+                {
+                    InteractionOrSelection(hit);
+                }
             }
         }
     }
@@ -382,6 +388,49 @@ public class InteractionScript : MonoBehaviour
         if (GridManager.Board[hitGridPos.x, hitGridPos.y].current == Tile.chessPiece.KingPlayer)
         {
             SceneManager.LoadScene("BlackWonScene");
+        }
+    }
+    private void OffBoardButtons(RaycastHit hit)
+    {
+        if (hit.transform.name == "Settings Player")
+        {
+            Debug.Log("Settings Player");
+        }
+        if (hit.transform.name == "Settings Opponent")
+        {
+            Debug.Log("Settings Opponent");
+        }
+        if (hit.transform.name == "Buy Menu Player")
+        {
+            Debug.Log("Buy Menu Player");
+        }
+        if (hit.transform.name == "Buy Menu Opponent")
+        {
+            Debug.Log("Buy Menu Opponent");
+        }
+        if (hit.transform.name == "Play Local Default")
+        {
+            SceneManager.LoadScene("Local Default");
+        }
+        if (hit.transform.name == "Main Menu")
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
+        if (hit.transform.name == "Quit")
+        {
+            Application.Quit();
+        }
+        if (hit.transform.name == "Shop")
+        {
+            SceneManager.LoadScene("Shop");
+        }
+        if (hit.transform.name == "Settings")
+        {
+            SceneManager.LoadScene("Settings");
+        }
+        if (hit.transform.name == "Help Menu")
+        {
+            SceneManager.LoadScene("Help Menu");
         }
     }
 }

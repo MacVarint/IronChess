@@ -6,31 +6,34 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedScenePath-0:
-      value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
-      flags: 0
-    RecentlyUsedScenePath-1:
-      value: 22424703114646680e0b0227036c6c151a121b3e252728032e3b1836ecae2136ebf32f
-      flags: 0
-    RecentlyUsedScenePath-2:
-      value: 22424703114646680e0b0227036c731f1516146a082d20313825097bc0ec353be9a721e6e9737129370bfb25
-      flags: 0
-    RecentlyUsedScenePath-3:
       value: 22424703114646680e0b0227036c731f1516146a082d20313825097bc0ec353be9a701e6e9737129370bfb25
       flags: 0
-    RecentlyUsedScenePath-4:
+    RecentlyUsedScenePath-1:
       value: 22424703114646680e0b0227036c731f1516146a082d20313825097bd5e83d2ce7a701e6e9737129370bfb25
       flags: 0
-    RecentlyUsedScenePath-5:
+    RecentlyUsedScenePath-2:
       value: 22424703114646680e0b0227036c7d3c1714131d232615332827187df7ee3d2cfb
       flags: 0
-    RecentlyUsedScenePath-6:
-      value: 22424703114646680e0b0227036c68181f031d1d232615332827187df7ee3d2cfb
+    RecentlyUsedScenePath-3:
+      value: 22424703114646680e0b0227036c731f1516146a082d20313825097df7ee3d2cfb
       flags: 0
-    RecentlyUsedScenePath-7:
+    RecentlyUsedScenePath-4:
       value: 22424703114646680e0b0227036c7d1c1714131d232615332827187df7ee3d2cfb
       flags: 0
+    RecentlyUsedScenePath-5:
+      value: 22424703114646680e0b0227036c68181f031d1d232615332827187df7ee3d2cfb
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646680e0b0227036c6c181907563f22213229
+      flags: 0
+    RecentlyUsedScenePath-7:
+      value: 22424703114646680e0b0227036c77151a0758072926337e38271427fb
+      flags: 0
     RecentlyUsedScenePath-8:
-      value: 22424703114646680e0b0227036c731f1516146a082d20313825097df7ee3d2cfb
+      value: 22424703114646680e0b0227036c6c15020311242b3b68252320092a
+      flags: 0
+    RecentlyUsedScenePath-9:
+      value: 22424703114646680e0b0227036c72111f1958072926337e38271427fb
       flags: 0
     UnityRemoteDevice:
       value: 225f4d46245b0d4902070862342649191512
