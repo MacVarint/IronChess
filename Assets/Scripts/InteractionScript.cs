@@ -23,6 +23,8 @@ public class InteractionScript : MonoBehaviour
     private GameObject newRedTile;
     private Vector2Int newRedTileGridPos = new Vector2Int(0,0);
     public Transform parent;
+    public TimerScript TimerScriptPlayer;
+    public TimerScript TimerScriptOpponent;
 
     Dictionary<Vector2Int, GameObject> newGreenTilesPositions = new Dictionary<Vector2Int, GameObject>();
 
@@ -32,6 +34,8 @@ public class InteractionScript : MonoBehaviour
 
     GameObject escapeMenuPlayer;
     GameObject escapeMenuOpponent;
+    GameObject escapeMenuPlayerHelpMenu;
+    GameObject escapeMenuOpponentHelpMenu;
     private float delay = 0;
     private bool neverZoomed = true;
 
@@ -42,6 +46,8 @@ public class InteractionScript : MonoBehaviour
 
         escapeMenuPlayer = GameObject.Find("PlayField/Escape Menu Player");
         escapeMenuOpponent = GameObject.Find("PlayField/Escape Menu Opponent");
+        escapeMenuPlayerHelpMenu = GameObject.Find("PlayField/Escape Menu Player Help Menu");
+        escapeMenuOpponentHelpMenu = GameObject.Find("PlayField/Escape Menu Opponent Help Menu");
 
         if (escapeMenuPlayer != null)
         {
@@ -50,6 +56,14 @@ public class InteractionScript : MonoBehaviour
         if (escapeMenuOpponent != null)
         {
             escapeMenuOpponent.SetActive(false);
+        }
+        if (escapeMenuPlayerHelpMenu != null)
+        {
+            escapeMenuPlayerHelpMenu.SetActive(false);
+        }
+        if (escapeMenuOpponentHelpMenu != null)
+        {
+            escapeMenuOpponentHelpMenu.SetActive(false);
         }
     }
 
@@ -136,6 +150,7 @@ public class InteractionScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(pos, transform.forward, out hit, 10))
         {
+            Debug.Log(hit.transform.name);
             if (hit.transform.GetComponent<Tile>() == null)
             {
                 OffBoardButtons(hit);
@@ -458,22 +473,58 @@ public class InteractionScript : MonoBehaviour
         {
             escapeMenuPlayer.SetActive(false);
             escapeMenuOpponent.SetActive(false);
-            Time.timeScale = 1;
+            if (players.turn == false)
+            {
+                TimerScriptPlayer.turnOnTimer = true;
+            }
+            if (players.turn == true)
+            {
+                TimerScriptOpponent.turnOnTimer = true;
+            }
         }
         if (hit.transform.name == "Settings Player")
         {
             escapeMenuPlayer.SetActive(true);
-            Time.timeScale = 0;
+            if (players.turn == false)
+            {
+                TimerScriptPlayer.turnOnTimer = false;
+            }
+            if (players.turn == true)
+            {
+                TimerScriptOpponent.turnOnTimer = false;
+            }
         }
         if (hit.transform.name == "Settings Opponent")
         {
             escapeMenuOpponent.SetActive(true);
-            Time.timeScale = 0;
+            if (players.turn == false)
+            {
+                TimerScriptPlayer.turnOnTimer = false;
+            }
+            if (players.turn == true)
+            {
+                TimerScriptOpponent.turnOnTimer = false;
+            }
         }
         if (hit.transform.name == "Redo")
         {
             SceneManager.LoadScene("Local Default");
-            Time.timeScale = 1;
+        }
+        if (hit.transform.name == "Ingame Help Menu" && escapeMenuPlayer.active == true)
+        {
+            escapeMenuPlayerHelpMenu.SetActive(true);
+        }
+        else if (hit.transform.name == "Ingame Help Menu")
+        {
+            escapeMenuOpponentHelpMenu.SetActive(true);
+        }
+        if (hit.transform.name == "Go Back" && escapeMenuPlayerHelpMenu.active == true)
+        {
+            escapeMenuPlayerHelpMenu.SetActive(false);
+        }
+        else if (hit.transform.name == "Go Back")
+        {
+            escapeMenuOpponentHelpMenu.SetActive(false);
         }
     }
     /*
