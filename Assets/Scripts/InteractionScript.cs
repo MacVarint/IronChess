@@ -32,6 +32,8 @@ public class InteractionScript : MonoBehaviour
 
     GameObject escapeMenuPlayer;
     GameObject escapeMenuOpponent;
+    private float delay = 0;
+    private bool neverZoomed = true;
 
     void Start()
     {
@@ -93,12 +95,24 @@ public class InteractionScript : MonoBehaviour
     }
     private void TouchCount()
     {
+
         if (Input.touchCount == 1)
         {
-            TileSelection();
+            delay += Time.deltaTime;
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                delay = 0;
+                neverZoomed = true;
+            }
+            if (Input.GetTouch(0).phase == TouchPhase.Ended && delay >= 0.05f && neverZoomed == true)
+            {
+                TileSelection();
+            }
         }
         if (Input.touchCount == 2)
         {
+            delay = 0;
+            neverZoomed = false;
             if (Input.GetTouch(1).phase == TouchPhase.Began)
             {
                 touchStart = (Input.GetTouch(1).position + Input.GetTouch(0).position) / 2;
@@ -116,21 +130,19 @@ public class InteractionScript : MonoBehaviour
 
     private void TileSelection()
     {
-        if (Input.GetTouch(0).phase == TouchPhase.Began)
+        delay += Time.deltaTime;
+        pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        pos.z = -5;
+        RaycastHit hit;
+        if (Physics.Raycast(pos, transform.forward, out hit, 10))
         {
-            pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            pos.z = -5;
-            RaycastHit hit;
-            if (Physics.Raycast(pos, transform.forward, out hit, 10))
+            if (hit.transform.GetComponent<Tile>() == null)
             {
-                if (hit.transform.GetComponent<Tile>() == null)
-                {
-                    OffBoardButtons(hit);
-                }
-                else
-                {
-                    InteractionOrSelection(hit);
-                }
+                OffBoardButtons(hit);
+            }
+            else
+            {
+                InteractionOrSelection(hit);
             }
         }
     }
