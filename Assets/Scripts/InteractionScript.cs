@@ -196,12 +196,17 @@ public class InteractionScript : MonoBehaviour
                         if (hitPiece == Tile.chessPiece.PawnOpponent || hitPiece == Tile.chessPiece.PawnPlayer)
                         {
                             //Checks if tempNext is within the bounds of the Board array
-                            if (tempNext.x + 1 < 8 && tempNext.x - 1 > 0)
+                            //BUGGGGGGG
+                            if (tempNext.x + 1 < 8)
                             {
                                 if (players.CanIHitThis(GridManager.Board[tempNext.x + 1, tempNext.y].current))
                                 {
                                     InstantiateYellowTiles(new Vector2(movesCurrent[i].x + 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x + 1, tempNext.y));
                                 }
+                            }
+                            if (tempNext.x - 1 >= 0)
+                            {
+                                Debug.Log("awdaw");
                                 if (players.CanIHitThis(GridManager.Board[tempNext.x - 1, tempNext.y].current))
                                 {
                                     InstantiateYellowTiles(new Vector2(movesCurrent[i].x - 1, movesCurrent[i].y), 1, hit, new Vector2Int(tempNext.x - 1, tempNext.y));
@@ -317,7 +322,6 @@ public class InteractionScript : MonoBehaviour
                 }
 
                 gridManager.AssignSprites();
-                Debug.Log("You hitted a enemy piece");
             }
             else
             {
@@ -334,7 +338,6 @@ public class InteractionScript : MonoBehaviour
 
                 gridManager.AssignSprites();
 
-                Debug.Log("You moved your piece");
             }
         } else if (hitPiece != Tile.chessPiece.None)
         {
@@ -443,14 +446,27 @@ public class InteractionScript : MonoBehaviour
         {
             escapeMenuPlayer.SetActive(false);
             escapeMenuOpponent.SetActive(false);
+            Time.timeScale = 1;
         }
         if (hit.transform.name == "Settings Player")
         {
             escapeMenuPlayer.SetActive(true);
+            Time.timeScale = 0;
         }
         if (hit.transform.name == "Settings Opponent")
         {
             escapeMenuOpponent.SetActive(true);
+            Time.timeScale = 0;
+        }
+        if (hit.transform.name == "Redo")
+        {
+            SceneManager.LoadScene("Local Default");
+            Time.timeScale = 1;
         }
     }
+    /*
+
+     * Drag needs a delay to stop placing tiles on accident
+
+     */
 }
