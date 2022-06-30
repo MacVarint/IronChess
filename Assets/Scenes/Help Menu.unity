@@ -248,6 +248,8 @@ MonoBehaviour:
   greenTile: {fileID: 5619617435054159617, guid: 52973b0c1803f684f81094959de8ba66, type: 3}
   yellowTile: {fileID: 5619617435054159617, guid: 3c6646bbe19861f4d9652a1a3b6445f1, type: 3}
   parent: {fileID: 1405030185}
+  TimerScriptPlayer: {fileID: 0}
+  TimerScriptOpponent: {fileID: 0}
   players: {fileID: 652699812}
 --- !u!81 &652699814
 AudioListener:
@@ -371,7 +373,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Comming Soon
+  m_text: Coming Soon
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
