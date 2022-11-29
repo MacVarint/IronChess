@@ -1,0 +1,16 @@
+Stein legerstee(15:24 2022-11-08):
+
+- de pijl terug moet een pijl terug worden inplaats van een refresh button. 
+- assen systeem toevoegen.
+- pawn promotion 
+- schaak staan visual indicator.
+- schaak mat visual indicator
+- Rokeren toevoegen
+- het is niet duidelijk welke pawn bij jouw hoort, de kleuen zijn moeilijk te zien. 
+- aparte kleur achtergrond. 
+- randomizer voor wie wit of zwart is.
+
+Online features 
+- meer gamemodes
+- chat systeem met emotes. 
+- global leaderboard

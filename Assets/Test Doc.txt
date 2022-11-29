@@ -1,0 +1,28 @@
+1.	Bug: De pawns kunnen altijd 2 stappen doen.
+
+2.	Reacreate Bug: 
+	Start het spel.
+	Klik op de playbutton.
+	Klik op een pawn.
+	Verplaats de pawn 2 plaatsen naar de tegenstanders kant.
+	Klik nog een keer op de zelfde pawn.
+	Je krijgt weer twee opties om de pawn naar voren te zetten.
+
+3.	Fix 1 :Open InteractinScript.CS
+	Door een uitgebreide toevoeging aan if statements te maken.
+	Dit had geen effect.
+	Fix 2 :Toevoeging boolean hasMoved aan Tile.cs met een if check.
+	Dit loste probleem op.
+
+4. De pawn kan nu maar een keer 2 stappen zetten
+
+
+
+	
+	Testverslag
+	Sven Knappmann 
+	09-11-2022
+
+	Inhoudsopgave
+
+	Inleiding
