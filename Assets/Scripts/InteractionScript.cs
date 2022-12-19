@@ -110,15 +110,15 @@ public class InteractionScript : MonoBehaviour
     private void TouchCount()
     {
 
-        if (Input.touchCount == 1)
+        if (Input.touchCount == 1 || Input.GetMouseButton(0))
         {
             delay += Time.deltaTime;
-            if (Input.GetTouch(0).phase == TouchPhase.Began)
+            if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetMouseButtonDown(0))
             {
                 delay = 0;
                 neverZoomed = true;
             }
-            if (Input.GetTouch(0).phase == TouchPhase.Ended && delay >= 0.05f && neverZoomed == true)
+            if ((Input.GetTouch(0).phase == TouchPhase.Ended && delay >= 0.05f && neverZoomed == true) || (Input.GetMouseButtonDown(0) && delay >= 0.05f && neverZoomed == true))
             {
                 TileSelection();
             }
